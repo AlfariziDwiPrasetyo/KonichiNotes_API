@@ -4,6 +4,9 @@ const postRoutes = require("./routes/posts/postRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//body parse
+app.use(express.json());
+
 //USER ROUTE
 app.use("/api/v1/user/", userRoutes);
 

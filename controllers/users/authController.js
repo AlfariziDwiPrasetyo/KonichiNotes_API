@@ -1,14 +1,36 @@
+const User = require("../../models/users/user");
+
+//register
+const registerController = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    //found user
+    const foundUser = await User.findOne({ email });
+    if (foundUser) {
+      res.json({
+        msg: "The email has been taken",
+      });
+      return;
+    }
+
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+    });
+    console.log(newUser);
+
+    res.json(newUser);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 //login
 const loginController = (req, res) => {
   res.json({
     msg: "Login Route",
-  });
-};
-
-//register
-const registerController = (req, res) => {
-  res.json({
-    msg: "Register Route",
   });
 };
 

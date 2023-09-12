@@ -15,9 +15,11 @@ const {
 
 const userRoutes = express.Router();
 
+//post
+userRoutes.post("/register", registerController);
+userRoutes.post("/login", loginController);
+
 //get
-userRoutes.get("/register", registerController);
-userRoutes.get("/login", loginController);
 userRoutes.get("/profile/:id", userProfileController);
 userRoutes.get("/logout", logoutController);
 userRoutes.get("/:id", userDetailsController);
