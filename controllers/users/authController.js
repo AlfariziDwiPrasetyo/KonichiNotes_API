@@ -1,11 +1,13 @@
+const bcrypt = require("bcryptjs");
 const User = require("../../models/users/user");
+const generateToken = require("../../utils/generateToken");
 
 //register
 const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    //found user
+    //find user
     const foundUser = await User.findOne({ email });
     if (foundUser) {
       res.json({
@@ -14,12 +16,16 @@ const registerController = async (req, res) => {
       return;
     }
 
+    //hash Password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //save user to db
     const newUser = await User.create({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
-    console.log(newUser);
 
     res.json(newUser);
   } catch (error) {
@@ -28,10 +34,34 @@ const registerController = async (req, res) => {
 };
 
 //login
-const loginController = (req, res) => {
-  res.json({
-    msg: "Login Route",
-  });
+const loginController = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    //find user
+    const foundUser = await User.findOne({ email });
+    if (!foundUser) {
+      res.json({
+        msg: "Account not found",
+      });
+      return;
+    }
+
+    //compare password
+    const decodedPassword = await bcrypt.compare(password, foundUser.password);
+
+    if (decodedPassword && name === foundUser.name) {
+      const token = generateToken(foundUser._id);
+      res.json({ foundUser, token });
+      return;
+    }
+
+    res.json({
+      msg: "Username or Password is wrong",
+    });
+  } catch (error) {
+    res.json(error);
+  }
 };
 
 //update

@@ -13,6 +13,9 @@ const {
   profileImageUpdate,
 } = require("../../controllers/users/profileController");
 
+//middleware
+const isLogin = require("../../middleware/isLogin");
+
 const userRoutes = express.Router();
 
 //post
@@ -20,8 +23,8 @@ userRoutes.post("/register", registerController);
 userRoutes.post("/login", loginController);
 
 //get
-userRoutes.get("/profile/:id", userProfileController);
-userRoutes.get("/logout", logoutController);
+userRoutes.get("/profile/:id", isLogin, userProfileController);
+userRoutes.get("/logout", isLogin, logoutController);
 userRoutes.get("/:id", userDetailsController);
 
 //put
