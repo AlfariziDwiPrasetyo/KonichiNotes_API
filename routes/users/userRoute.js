@@ -15,11 +15,12 @@ const {
 
 //middleware
 const isLogin = require("../../middleware/isLogin");
+const validateAuth = require("../../middleware/validateAuth");
 
 const userRoutes = express.Router();
 
 //post
-userRoutes.post("/register", registerController);
+userRoutes.post("/register", validateAuth, registerController);
 userRoutes.post("/login", loginController);
 
 //get
