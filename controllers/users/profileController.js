@@ -1,6 +1,10 @@
+const jwt = require("jsonwebtoken");
+const getToken = require("../../utils/getToken");
+const User = require("../../models/users/user");
+
 const userDetailsController = (req, res) => {
   res.json({
-    msg: "User Details Route",
+    msg: "Success",
   });
 };
 
@@ -10,9 +14,14 @@ const profileImageUpdate = (req, res) => {
   });
 };
 
-const userProfileController = (req, res) => {
+const userProfileController = async (req, res) => {
+  const userToken = jwt.decode(getToken(req)).user;
+  const userProfile = await User.findById(userToken);
+  console.log(userProfile);
+
   res.json({
-    msg: "Profile Route",
+    msg: "Success",
+    user: userProfile,
   });
 };
 
