@@ -83,7 +83,7 @@ const updateUserController = async (req, res, next) => {
 const passwordUpdateController = async (req, res) => {
   const password = req.body.password;
   const oldPassword = req.body.oldPassword;
-  const id = req.params.id;
+  const id = jwt.decode(getToken(req)).user;
   const user = await User.findById(id);
 
   //not allow <6 length pw
@@ -94,19 +94,18 @@ const passwordUpdateController = async (req, res) => {
   // //hash the password
   const salt = await bcrypt.genSalt(10);
   const newPassword = await bcrypt.hash(password, salt);
-  console.log(user.password);
 
   //change the password
   const compareOldPassword = await bcrypt.compare(oldPassword, user.password);
   if (!compareOldPassword) {
     return next(errHandler("Sorry your Old password is wrong"));
   } else {
-    const updatePassword = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       id,
       { $set: { password: newPassword } },
       { new: true }
     );
-    res.json(updatePassword);
+    res.json({ status: "Success", msg: "Password succesfully updated" });
     return;
   }
 };

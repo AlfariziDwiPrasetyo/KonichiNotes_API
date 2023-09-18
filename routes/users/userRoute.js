@@ -30,7 +30,7 @@ userRoutes.get("/:id", userDetailsController);
 
 //put
 userRoutes.put("/update", isLogin, updateUserController);
-userRoutes.put("/password-update/:id", passwordUpdateController);
+userRoutes.put("/password-update", isLogin, passwordUpdateController);
 userRoutes.put("/profile-image-update/:id", profileImageUpdate);
 
 //export route
