@@ -24,7 +24,7 @@ userRoutes.post("/register", validateAuth, registerController);
 userRoutes.post("/login", loginController);
 
 //get
-userRoutes.get("/profile/:id", isLogin, userProfileController);
+userRoutes.get("/profile", isLogin, userProfileController);
 userRoutes.get("/logout", isLogin, logoutController);
 userRoutes.get("/:id", userDetailsController);
 
