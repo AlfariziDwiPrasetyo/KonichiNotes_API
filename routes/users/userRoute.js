@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer");
+const storage = require("../../config/cloudinary");
 const {
   registerController,
   passwordUpdateController,
@@ -19,6 +21,9 @@ const validateAuth = require("../../middleware/validateAuth");
 
 const userRoutes = express.Router();
 
+//multer
+const upload = multer({ storage });
+
 //post
 userRoutes.post("/register", validateAuth, registerController);
 userRoutes.post("/login", loginController);
@@ -31,7 +36,12 @@ userRoutes.get("/:id", userDetailsController);
 //put
 userRoutes.put("/update", isLogin, updateUserController);
 userRoutes.put("/password-update", isLogin, passwordUpdateController);
-userRoutes.put("/profile-image-update/:id", profileImageUpdate);
+userRoutes.put(
+  "/profile-image-update/:id",
+  isLogin,
+  upload.single("profile"),
+  profileImageUpdate
+);
 
 //export route
 module.exports = userRoutes;
