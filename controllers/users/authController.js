@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../../models/users/user");
 const generateToken = require("../../utils/generateToken");
 const errHandler = require("../../utils/errHandler");
+const getToken = require("../../utils/getToken");
+const jwt = require("jsonwebtoken");
 
 //register
 const registerController = async (req, res, next) => {
@@ -60,7 +62,7 @@ const loginController = async (req, res, next) => {
 //update
 const updateUserController = async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const id = jwt.decode(getToken(req)).user;
     const { name, email } = req.body;
     if (!name && !email) {
       return next(errHandler("Please filled the form"));
@@ -70,10 +72,10 @@ const updateUserController = async (req, res, next) => {
       { $set: { name, email } },
       { new: true }
     );
-    console.log(updateUser);
+    console.log(updatedUser);
     res.json(updatedUser);
   } catch (error) {
-    next(errHandler("User not found"));
+    next(errHandler(error));
   }
 };
 

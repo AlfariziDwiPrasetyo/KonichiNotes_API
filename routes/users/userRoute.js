@@ -29,8 +29,8 @@ userRoutes.get("/logout", isLogin, logoutController);
 userRoutes.get("/:id", userDetailsController);
 
 //put
+userRoutes.put("/update", isLogin, updateUserController);
 userRoutes.put("/password-update/:id", passwordUpdateController);
-userRoutes.put("/update/:id", updateUserController);
 userRoutes.put("/profile-image-update/:id", profileImageUpdate);
 
 //export route
