@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 //create
 const createPost = async (req, res, next) => {
-  const { title, description, category, author } = req.body;
+  const { title, description, category } = req.body;
   try {
     //find author
     const authorId = jwt.decode(getToken(req)).user;
@@ -19,6 +19,7 @@ const createPost = async (req, res, next) => {
       description,
       category,
       author: foundAuthor._id,
+      image: req.file.path,
     });
 
     //validate
@@ -30,7 +31,7 @@ const createPost = async (req, res, next) => {
     foundAuthor.posts.push(post._id);
     await foundAuthor.save();
 
-    res.json(foundAuthor);
+    res.json(post);
   } catch (error) {
     next(errHandler(error));
   }
