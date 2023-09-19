@@ -1,8 +1,33 @@
+const Post = require("../../models/posts/post");
+const User = require("../../models/users/user");
+const errHandler = require("../../utils/errHandler");
+const jwt = require("jsonwebtoken");
+const getToken = require("../../utils/getToken");
+
 //create
-const createPost = (req, res) => {
-  res.json({
-    msg: "create post route",
-  });
+const createPost = async (req, res, next) => {
+  const { title, description, category, author } = req.body;
+  try {
+    //find author
+    const authorId = jwt.decode(getToken(req)).user;
+    const foundAuthor = await User.findById(authorId);
+
+    //create post
+    const post = await Post.create({
+      title,
+      description,
+      category,
+      author: foundAuthor._id,
+    });
+
+    //push and save the post into the user db
+    foundAuthor.posts.push(post._id);
+    await foundAuthor.save();
+
+    res.json(foundAuthor);
+  } catch (error) {
+    next(errHandler(error));
+  }
 };
 
 //delete

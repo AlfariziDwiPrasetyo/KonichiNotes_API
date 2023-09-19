@@ -11,13 +11,13 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    Image: {
+    image: {
       type: String,
     },
     category: {
       type: String,
       required: true,
-      enum: ["Technology", "Education", "Random", "Campus"],
+      enum: ["Technology", "Education", "Random", "Campus", "other"],
     },
     author: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

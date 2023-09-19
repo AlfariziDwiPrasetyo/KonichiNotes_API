@@ -6,13 +6,14 @@ const {
   deletePost,
   updatePost,
 } = require("../../controllers/posts/postController");
+const isLogin = require("../../middleware/isLogin");
 
 const postRoutes = express.Router();
 
-postRoutes.get("/", getAllPost);
+postRoutes.post("/create", isLogin, createPost);
+postRoutes.get("/", isLogin, getAllPost);
 postRoutes.get("/:id", getOnePost);
 postRoutes.put("/update/:id", updatePost);
-postRoutes.post("/create", createPost);
 postRoutes.delete("/delete/:id", deletePost);
 
 module.exports = postRoutes;
