@@ -3,6 +3,7 @@ const User = require("../../models/users/user");
 const errHandler = require("../../utils/errHandler");
 const jwt = require("jsonwebtoken");
 const getToken = require("../../utils/getToken");
+const mongoose = require("mongoose");
 
 //create
 const createPost = async (req, res, next) => {
@@ -20,6 +21,11 @@ const createPost = async (req, res, next) => {
       author: foundAuthor._id,
     });
 
+    //validate
+    if (!title || !description || !category) {
+      return next(errHandler("All form are required"));
+    }
+
     //push and save the post into the user db
     foundAuthor.posts.push(post._id);
     await foundAuthor.save();
@@ -30,31 +36,43 @@ const createPost = async (req, res, next) => {
   }
 };
 
-//delete
-const deletePost = (req, res) => {
-  res.json({
-    msg: "Delete post route",
-  });
-};
-
 //get all
-const getAllPost = (req, res) => {
-  res.json({
-    msg: "Get all post route",
-  });
+const getAllPost = async (req, res, next) => {
+  try {
+    const allPost = await Post.find();
+    res.json(allPost);
+  } catch (error) {
+    next(errHandler(error));
+  }
 };
 
 //get one
-const getOnePost = (req, res) => {
-  res.json({
-    msg: "Get one post route",
-  });
+const getOnePost = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id))
+      return next(errHandler("Not Found", 404));
+    const post = await Post.findById(id);
+    if (post === undefined) return next(errHandler("Not Found", 404));
+    res.json({
+      post,
+    });
+  } catch (error) {
+    next(errHandler(error.message));
+  }
 };
 
 //update
 const updatePost = (req, res) => {
   res.json({
     msg: "Update post route",
+  });
+};
+
+//delete
+const deletePost = (req, res) => {
+  res.json({
+    msg: "Delete post route",
   });
 };
 

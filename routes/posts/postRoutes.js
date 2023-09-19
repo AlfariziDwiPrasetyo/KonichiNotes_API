@@ -11,7 +11,7 @@ const isLogin = require("../../middleware/isLogin");
 const postRoutes = express.Router();
 
 postRoutes.post("/create", isLogin, createPost);
-postRoutes.get("/", isLogin, getAllPost);
+postRoutes.get("/", getAllPost);
 postRoutes.get("/:id", getOnePost);
 postRoutes.put("/update/:id", updatePost);
 postRoutes.delete("/delete/:id", deletePost);
