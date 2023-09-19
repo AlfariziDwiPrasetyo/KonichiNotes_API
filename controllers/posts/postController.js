@@ -70,10 +70,19 @@ const updatePost = (req, res) => {
 };
 
 //delete
-const deletePost = (req, res) => {
-  res.json({
-    msg: "Delete post route",
-  });
+const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    if (!mongoose.isValidObjectId(postId))
+      return next(errHandler("Not Found", 404));
+    const deletedPost = await Post.findByIdAndDelete(postId);
+    if (!deletedPost) return next(errHandler("Not Found", 404));
+    res.json({
+      msg: "Post deleted successfully",
+    });
+  } catch (error) {
+    next(errHandler(error.message));
+  }
 };
 
 module.exports = { createPost, deletePost, getAllPost, getOnePost, updatePost };

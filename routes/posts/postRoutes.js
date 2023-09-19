@@ -13,7 +13,7 @@ const postRoutes = express.Router();
 postRoutes.post("/create", isLogin, createPost);
 postRoutes.get("/", getAllPost);
 postRoutes.get("/:id", getOnePost);
-postRoutes.put("/update/:id", updatePost);
-postRoutes.delete("/delete/:id", deletePost);
+postRoutes.put("/update/:id", isLogin, updatePost);
+postRoutes.delete("/delete/:id", isLogin, deletePost);
 
 module.exports = postRoutes;
