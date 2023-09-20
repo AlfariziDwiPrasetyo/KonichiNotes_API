@@ -28,7 +28,7 @@ const profileImageUpdate = async (req, res, next) => {
 
 const userProfileController = async (req, res) => {
   const userToken = jwt.decode(getToken(req)).user;
-  const userProfile = await User.findById(userToken);
+  const userProfile = await User.findById(userToken).populate("posts");
   console.log(userProfile);
 
   res.json({
