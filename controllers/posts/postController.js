@@ -64,10 +64,25 @@ const getOnePost = async (req, res, next) => {
 };
 
 //update
-const updatePost = (req, res) => {
-  res.json({
-    msg: "Update post route",
-  });
+const updatePost = async (req, res, next) => {
+  try {
+    const { title, description, category } = req.body;
+    const postId = req.params.id;
+    const foundPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $set: {
+          title,
+          description,
+          category,
+        },
+      },
+      { new: true }
+    );
+    res.json(foundPost);
+  } catch (error) {
+    next(errHandler(error.message));
+  }
 };
 
 //delete

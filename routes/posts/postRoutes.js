@@ -18,7 +18,7 @@ const postRoutes = express.Router();
 postRoutes.post("/create", isLogin, upload.single("postImg"), createPost);
 postRoutes.get("/", getAllPost);
 postRoutes.get("/:id", getOnePost);
-postRoutes.put("/update/:id", isLogin, updatePost);
+postRoutes.put("/update/:id", isLogin, upload.single("postImg"), updatePost);
 postRoutes.delete("/delete/:id", isLogin, deletePost);
 
 module.exports = postRoutes;
