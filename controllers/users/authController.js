@@ -49,8 +49,10 @@ const loginController = async (req, res, next) => {
 
     if (decodedPassword) {
       const token = generateToken(foundUser._id);
-      res.json({ foundUser, token });
-      return;
+      return res.json({
+        foundUser,
+        token,
+      });
     }
 
     next(errHandler("The email or password are wrong "));

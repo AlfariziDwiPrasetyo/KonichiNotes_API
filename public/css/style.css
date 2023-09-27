@@ -1,0 +1,56 @@
+.title-article{
+    font-family: 'Playfair Display', serif;
+    color: #5B0888;
+}
+
+.card{
+    border: none;
+}
+
+.card-body{
+    padding: 0px;
+}
+
+.category{
+    color: #EC53B0;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pink-color{
+    color: #EC53B0;
+}
+
+.purple-color{
+    color: #5B0888;
+}
+
+.date{
+    font-size: 10px;
+}
+
+.side-img{
+    width: 75px;
+    height: 75px;
+    float: left;
+}
+
+.side-item{
+    display: flex;
+    justify-content: space-between;
+    padding-top:1px ;
+    padding-left:1rem ;
+    text-align: left;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem #5b08889d; /* Optional: Add a box shadow when focused */
+}
+
+.custom-button{
+    background-color: #EC53B0;
+    width: fit-content;
+    border-radius: 10px;
+}
