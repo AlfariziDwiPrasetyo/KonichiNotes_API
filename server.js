@@ -20,11 +20,6 @@ app.use(express.static("./public"));
 //body parse
 app.use(express.json());
 
-//Home
-app.get("/", (req, res) => {
-  res.render("index", { layout: "partials/layout" });
-});
-
 //USER ROUTE
 app.use("/api/v1/user/", userRoutes);
 
